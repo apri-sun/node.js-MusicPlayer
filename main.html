@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>音乐播放器</title>
+    <link rel="stylesheet" type="text/css" href="defaut.css">
+    <script src=utils.js></script>
+</head>
+<body>
+    <div class="main">
+        <div class="main-head">
+            <div class="main-head-container">
+                <img class="logo-img" src="static/img/logo.png" title="logo">
+                <span class="logo-name">小凡音乐</span>
+                <div class="main-head-seach">
+                    <input type="text">
+                    <button>
+                        <img src="static/img/seach.png">
+                    </button>
+                </div>
+                <div class="main-head-login">
+                    <button>登录</button>
+                </div>
+            </div>
+        </div>
+        <div class="main-body">
+            <div class="main-body-container">
+                <div class="main-body-music-img">
+                    <img class="cd" src="static/img/CD.jpeg">
+                    <img class="music-img" src="static/img/the spectre.jpg">
+                </div>
+                <div class="main-body-music-list">
+                    <div class="main-body-music-list-title">
+                        我的歌单
+                    </div>
+                    <div class="main-body-music-list-table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <td class="t1">
+
+                                    </td>
+                                    <td class="t2">
+                                        歌名
+                                    </td>
+                                    <td class="t3">
+                                        时长
+                                    </td>
+                                    <td class="t4">
+                                        歌手
+                                    </td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="music-player">
+            <div class="music-player-container">
+                <img class="left" src="static/img/left.png" />
+                <img class="start-pause" src="static/img/start.png" />
+                <img class="right" src="static/img/right.png" />
+                <!-- 进度条 -->
+                <div class="progress-bar">
+                    <div class="progress-bar-scroll">
+                        <div class="progress-bar-button">
+    
+                        </div>
+                        <div class="progress-progress-forward"></div>
+                    </div>
+                    <div class="progress-bar-time">
+                        <label class="start-time">0:00</label>
+                        &nbsp;/&nbsp;
+                        <label class="end-time"></label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <audio id='id-audio-player'>
+            <source data-music-id=1 src="static/music/The Spectre.mp3">
+        </audio>
+    </div>
+    <script src="player.js"></script>
+</body>
+</html>
