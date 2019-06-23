@@ -49,6 +49,12 @@ const sourceChagne = function(name) {
     musicTimeAdd()
     // 给 audio 加一个属性 autoplay ,使唱片开始播放
     au.setAttribute('autoplay','autoplay')
+    // 进度条开始滚动
+    resetScrollAutoGo()
+    startScrollAutoGo()
+    // 底部歌曲时间开始滚动
+    timeReset()
+    timeStart()
     // 让唱片转动起来
     startRotate()
     // 将播放按钮改为暂停按钮
@@ -89,7 +95,7 @@ const rightNumber = function(n, ml) {
     }
 }
 
-// 将音乐时间添加到进度条
+// 将音乐总时间添加到进度条
 const musicTimeAdd = function() {
     var s = e('source')
     var p = e('.end-time')
@@ -102,4 +108,109 @@ const musicTimeAdd = function() {
             p.insertAdjacentHTML("beforeend", time)
         }
     }
+}
+
+// 将分，秒的转化完成
+var m = 0
+var s = 0
+var ms = 0
+var time = 0
+
+// 将时间格式化
+var timer = function() {
+    var str =[]
+    ms += 200
+    if(ms >= 1000) {
+        ms = 0
+        s += 1
+    }
+    if(s >= 60) {
+        s = 0
+        m += 1
+    }
+    str = `${addZero(m)}:${addZero(s)}`
+    let st = e('.start-time')
+    st.innerText = str
+}
+
+// 时间开始
+var timeStart =function() {
+    // 设置一个定时器 200ms 一次
+    time = setInterval(timer, 200)
+}
+
+// 时间暂停
+var timeStop = function() {
+    clearInterval(time)
+}
+
+// 时间重置
+var timeReset = function() {
+    clearInterval(time);
+    h=m=s=ms=0;
+}
+
+// 补零操作
+const addZero = function(num) {
+    if(num < 10) {
+        return '0'+num
+    } else {
+        return ''+num
+    }
+}
+
+// 将当前播放了的时间转换为秒数
+const nowToSecond = function() {
+    return m * 60 + s
+}
+
+//将总时间转换为秒数
+const allToSecond = function() {
+    var at = e('.end-time').innerText
+    var s = at.split(':')
+    var mt = parseInt(s[0] * 60)
+    var st = parseInt(s[1])
+    return mt + st
+}
+
+// 进度条每秒自动向前的长度
+const secondGo = function() {
+    // 获取到音乐总时间
+    // 将时间转换为总秒数
+    var ats = allToSecond()
+    // 每 200ms 前进长度为 总长 * （0.2 / 音乐总时间）
+    var sl = e('.progress-bar-scroll').offsetWidth
+    var bl = e('.progress-bar-button').offsetWidth
+    var al = sl - bl
+    return al * (0.2 / ats)
+}
+
+var leftBar = 0
+var sag = 0
+
+// 让进度条向前移动
+const scrollAutoGo = function() {
+    var bar = e('.progress-bar-button')
+    var forward = e('.progress-progress-forward')
+    // 获取到每秒向前的长度
+    var sg = secondGo()
+    leftBar += sg
+    bar.style.left = leftBar + 'px'
+    forward.style.width = leftBar + 'px'
+}
+
+// 开始移动
+const startScrollAutoGo = function() {
+    sag = setInterval(scrollAutoGo, 200)
+}
+
+// 停止移动
+const stopScrollAutoGo = function() {
+    clearInterval(sag)
+}
+
+// 重置移动
+const resetScrollAutoGo = function() {
+    leftBar = 0
+    clearInterval(sag)
 }

@@ -62,12 +62,18 @@ const startPause = function() {
             // 1 播放音乐
             // 2 改变当前按钮 src
             // 3 让唱片滚动
+            // 4 下方时间开始走动
+            // 5 进度条开始走动
             au.play()
             target.src = 'static/img/pause.png'
+            timeStart()
+            startScrollAutoGo()
             startRotate()
         } else {
             au.pause()
             target.src = 'static/img/start.png'
+            timeStop()
+            stopScrollAutoGo()
             stopRotate()
         }
     })
@@ -135,13 +141,18 @@ const progressBarPull = function() {
                 barleft = 0
             } else if(barleft > scroll.offsetWidth - bar.offsetWidth) {
                 barleft = scroll.offsetWidth - bar.offsetWidth
-            } 
-                mask.style.width = barleft +'px' ;
-                that.style.left = barleft + "px";
+            }
+            mask.style.width = barleft +'px' ;
+            that.style.left = barleft + "px";
+            //防止选择内容--当拖动鼠标过快时候，弹起鼠标，bar也会移动，修复bug
+            window.getSelection ? window.getSelection().removeAllRanges() : document.selection.empty();
         }
     }
     document.onmouseup = function(){
-        document.onmousemove = null; //弹起鼠标不做任何操作
+        document.onmousemove = function() {
+            // 根据拖动的长度，改变歌曲进度
+            
+        }
     }
 }
 
