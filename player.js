@@ -97,35 +97,19 @@ const trClick = function() {
 
 // 给上一曲，下一曲按钮添加事件
 const leftAndRight = function() {
-    let ml = musicList.length
     bindEvent('.left', 'click', function(){
         // 根据序号进行，上下切换
-        // 获得当前正在播放的歌曲的序号
-        let n = getNumber()
-        // 将序号向前推一位
-        let ln = leftNumber(n, ml)
-        let s = e('source')
-        s.dataset.musicId = ln
-        for(let i of musicList){
-            if(i.id == ln){
-                sourceChagne(i.name)
-            }
-        }
+        goToForward()
     })
     bindEvent('.right', 'click', function(){
         // 根据序号进行，上下切换
-        // 获得当前正在播放的歌曲的序号
-        let n = getNumber()
-        // 将序号向后推一位
-        let rn = rightNumber(n, ml)
-        let s = e('source')
-        s.dataset.musicId = rn
-        for(let i of musicList){
-            if(i.id == rn){
-                sourceChagne(i.name)
-            }
-        }
+        goToNext()
     })
+}
+
+// 每秒检测一次，是否放完
+const setEndStatus = function() {
+    setInterval(endStatus, 1000)
 }
 
 // 进度条拖拽
@@ -138,6 +122,8 @@ const progressBarPull = function() {
         var leftVal = event.clientX - this.offsetLeft
         var that = this
         document.onmousemove = function(event) {
+            // 停止自动前进
+            stopScrollAutoGo()
             barleft = event.clientX - leftVal
             if(barleft < 0) {
                 barleft = 0
@@ -149,13 +135,37 @@ const progressBarPull = function() {
             //防止选择内容--当拖动鼠标过快时候，弹起鼠标，bar也会移动，修复bug
             window.getSelection ? window.getSelection().removeAllRanges() : document.selection.empty();
         }
-    }
-    document.onmouseup = function(){
-        document.onmousemove = function() {
+        document.onmouseup = function(){
+            document.onmousemove = null
             // 根据拖动的长度，改变歌曲进度
-
+            // 1 获取该跳转的时间
+            var nl = bar.offsetLeft
+            var time = jumpToSecond(nl)
+            // 2 跳转
+            var au = e('audio')
+            au.cerrentTime = time
         }
     }
+}
+
+// 点击播放方式来切换
+const cutPlayWay = function() {
+    var ele = e('.end-status').firstElementChild
+    var n = ele.dataset.endStatus
+    ele.addEventListener('click', function() {
+        n++
+        if(n % 3 == 1) {
+            ele.dataset.endStatus = 1
+            ele.src = 'static/img/list.png'
+        }
+        if(n % 3 == 2) {
+            ele.dataset.endStatus = 2
+            ele.src = 'static/img/one.png'
+        }if(n % 3 == 0) {
+            ele.dataset.endStatus = 3
+            ele.src = 'static/img/radom.png'
+        }
+    })
 }
 
 const __main = function() {
@@ -164,7 +174,9 @@ const __main = function() {
     startPause()
     trClick()
     leftAndRight()
+    setEndStatus()
     progressBarPull()
+    cutPlayWay()
 }
 
 __main()

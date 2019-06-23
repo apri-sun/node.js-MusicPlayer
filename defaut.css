@@ -166,7 +166,7 @@ thead td {
 }
 
 .music-player-container {
-    width: 1200px;
+    width: 1050px;
     height: 130px;
     display: flex;
     align-items: center;
@@ -174,13 +174,20 @@ thead td {
 }
 
 .start-pause {
-    margin-left: 40px;
-}
-
-.left,.right {
     width: 60px;
     height: 60px;
-    margin-left: 40px;
+    margin-left: 30px;
+}
+
+.left {
+    width: 40px;
+    height: 40px;
+}
+
+.right {
+    width: 40px;
+    height: 40px;
+    margin-left: 30px;
 }
 
 /* 进度条样式 */
@@ -218,4 +225,25 @@ thead td {
     display: inline-block;
     margin-left: 40px;
     color: #ccc;
+}
+
+/* 后方小组件 */
+.end-status {
+    display: inline-block;
+}
+
+.end-status img {
+    margin-left: 40px;
+    width: 30px;
+    height: 30px;
+}
+
+.voice-controllor {
+    display: inline-block;
+}
+
+.voice-controllor img {
+    margin-left: 40px;
+    width: 30px;
+    height: 30px;
 }

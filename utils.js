@@ -110,6 +110,22 @@ const musicTimeAdd = function() {
     }
 }
 
+// 播放上一首
+const goToForward = function() {
+    // 获得当前正在播放的歌曲的序号
+    let ml = musicList.length
+    let n = getNumber()
+    // 将序号向前推一位
+    let ln = leftNumber(n, ml)
+    let s = e('source')
+    s.dataset.musicId = ln
+    for(let i of musicList){
+        if(i.id == ln){
+            sourceChagne(i.name)
+        }
+    }
+}
+
 // 将分，秒的转化完成
 var m = 0
 var s = 0
@@ -213,4 +229,72 @@ const stopScrollAutoGo = function() {
 const resetScrollAutoGo = function() {
     leftBar = 0
     clearInterval(sag)
+}
+
+// 通过传入当前长度，返回该跳转到的秒数
+const jumpToSecond = function(long) {
+    var sl = e('.progress-bar-scroll').offsetWidth
+    var bl = e('.progress-bar-button').offsetWidth
+    var al = sl - bl
+    var at = allToSecond()
+    leftBar = long/al*at
+    return long/al*at
+}
+
+//播放下一首(列表循环)
+const goToNext = function() {
+    // 获得当前正在播放的歌曲的序号
+    let ml = musicList.length
+    let n = getNumber()
+    // 将序号向后推一位
+    let rn = rightNumber(n, ml)
+    let s = e('source')
+    s.dataset.musicId = rn
+    for(let i of musicList){
+        if(i.id == rn){
+            sourceChagne(i.name)
+        }
+    }
+}
+
+// 播放当前歌曲（单曲循环）
+const goToSelf = function() {
+    // 获得当前正在播放的歌曲的序号
+    let n = getNumber()
+    let s = e('source')
+    s.dataset.musicId = n
+    for(let i of musicList){
+        if(i.id == n){
+            sourceChagne(i.name)
+        }
+    }
+}
+
+// 随机播放
+
+// 判断播放方式
+const playWay = function() {
+    var ele = e('.end-status').firstElementChild
+    return ele.dataset.endStatus
+}
+
+// 当歌曲放完时的反应
+const endStatus =function() {
+    var au = e('audio')
+    if(au.ended == true) {
+        // 判断播放方式
+        var num = playWay()
+        if(num == 1){
+            goToNext()
+            console.log('1')
+        }
+        if(num == 2){
+            goToSelf()
+            console.log('2')
+        }
+        if(num == 3){
+            goToNext()
+            console.log('3')
+        }
+    }
 }
