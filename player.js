@@ -57,19 +57,21 @@ const startPause = function() {
         var target = e.target
         // 获取到当前的 audio 并播放
         var au = document.querySelector('#id-audio-player')
-        if(target.src == 'file:///C:/Users/srf/Desktop/musicplayer/static/img/start.png') {
+        if(target.dataset.status == 0) {
             // 为播放按钮,
             // 1 播放音乐
             // 2 改变当前按钮 src
             // 3 让唱片滚动
             // 4 下方时间开始走动
             // 5 进度条开始走动
+            target.dataset.status = 1
             au.play()
             target.src = 'static/img/pause.png'
             timeStart()
             startScrollAutoGo()
             startRotate()
         } else {
+            target.dataset.status = 0
             au.pause()
             target.src = 'static/img/start.png'
             timeStop()
@@ -151,7 +153,7 @@ const progressBarPull = function() {
     document.onmouseup = function(){
         document.onmousemove = function() {
             // 根据拖动的长度，改变歌曲进度
-            
+
         }
     }
 }
