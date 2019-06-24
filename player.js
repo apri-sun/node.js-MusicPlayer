@@ -123,7 +123,7 @@ const progressBarPull = function() {
         var that = this
         document.onmousemove = function(event) {
             // 停止自动前进
-            stopScrollAutoGo()
+            // stopScrollAutoGo()
             barleft = event.clientX - leftVal
             if(barleft < 0) {
                 barleft = 0
